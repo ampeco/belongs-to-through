@@ -91,7 +91,7 @@ class BelongsToThrough extends Relation
 
             $predecessor = $i > 0 ? $this->throughParents[$i - 1] : $this->related;
 
-            $first = $table.'.'.$this->getForeignKeyName($predecessor);
+            $first = $table.'.'.$this->getForeignKeyName_($predecessor);
 
             $second = $predecessor->getQualifiedKeyName();
 
@@ -103,13 +103,17 @@ class BelongsToThrough extends Relation
         }
     }
 
+    function getForeignKeyName()
+    {
+        return '';
+    }
     /**
      * Get the foreign key for a model.
      *
      * @param \Illuminate\Database\Eloquent\Model $model
      * @return string
      */
-    protected function getForeignKeyName(Model $model)
+    protected function getForeignKeyName_(Model $model)
     {
         $table = $model->getTable();
 
@@ -327,7 +331,7 @@ class BelongsToThrough extends Relation
      */
     public function getFirstForeignKeyName()
     {
-        return $this->prefix.$this->getForeignKeyName(end($this->throughParents));
+        return $this->prefix.$this->getForeignKeyName_(end($this->throughParents));
     }
 
     /**
